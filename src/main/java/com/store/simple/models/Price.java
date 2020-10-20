@@ -4,13 +4,25 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "TBL_PRICE")
+@Table(name = "price")
 public class Price {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private long productID;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "product_id")
+    Product product;
+
+    @Column(name = "price")
     private double price;
+
+    @Column(name = "date_begin")
     private Date beginDate;
+
+    @Column(name = "date_end")
     private Date endDate;
 
     protected Price() {}

@@ -3,25 +3,31 @@ package com.store.simple.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TBL_PRODUCTS")
+@Table(name = "product")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
+    Long id;
+
+    @Column(name = "name")
     private String name;
 
-    protected Product() {}
+    @OneToOne(mappedBy = "product")
+    Price price;
 
     public Product(String name) {
         this.name = name;
     }
 
-    public int getId() {
+    public Product() {}
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
