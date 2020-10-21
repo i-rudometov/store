@@ -8,13 +8,9 @@ import java.util.Date;
 public class Price {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private long productID;
-
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "product_id")
-    Product product;
+    @GeneratedValue
+    @Column(name = "id")
+    private long id;
 
     @Column(name = "price")
     private double price;
@@ -25,27 +21,34 @@ public class Price {
     @Column(name = "date_end")
     private Date endDate;
 
-    protected Price() {}
-
-    public Price(long productID, double price, Date beginDate, Date endDate) {
-        this.productID = productID;
-        this.price = price;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
+    public Price() {
     }
 
-    public Price(Long productId, double productPrice) {
+    public Price(double price) {
         this.price = price;
     }
 
+    @ManyToOne(cascade = {
+            CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-
-    public long getProductID() {
-        return productID;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getPrice() {
@@ -74,7 +77,11 @@ public class Price {
 
     @Override
     public String toString() {
-        return String.format("Price[productID=%d, price=%d, beginDate=%s, endDate=%s]", productID, price, beginDate, endDate
-        );
+        return "\nPrice{" +
+                "id=" + id +
+                ", price=" + price +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

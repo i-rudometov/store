@@ -1,27 +1,47 @@
 package com.store.simple.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "product")
-    Price price;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    private List<Price> price;
+
+    public Product() {
+    }
 
     public Product(String name) {
         this.name = name;
     }
 
-    public Product() {}
+    public Product(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public List<Price> getPrice() {
+        return price;
+    }
+
+    public void setPrice(List<Price> price) {
+        if (price != null) {
+            price.forEach(p -> {
+                p.setProduct(this);
+            });
+        }
+        this.price = price;
+    }
 
     public Long getId() {
         return id;
@@ -41,6 +61,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("Product[id=%d, name=%s,]", id, name);
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

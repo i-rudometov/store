@@ -7,10 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Controller
+@RestController
 @RequestMapping("/price")
 public class PriceController {
 
@@ -19,12 +22,20 @@ public class PriceController {
 
     @PostMapping("/create")
     public void setPrice(
-            @RequestParam("id") long id,
             @RequestParam("price") double productPrice,
-            @RequestParam("begin-date") Date beginDate,
-            @RequestParam("end-date") Date endDate) {
-        Price price = new Price(id, productPrice, beginDate, endDate);
-        priceRepository.save(price);
+            @RequestParam("begin-date") String bDate,
+            @RequestParam("end-date") String eDate) {
+
+        try {
+            Date beginDate = new SimpleDateFormat("yyyy-MM-dd").parse(bDate);
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(eDate);
+            Price price = new Price(productPrice);
+            priceRepository.save(price);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 }

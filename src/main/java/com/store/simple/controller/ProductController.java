@@ -6,16 +6,13 @@ import com.store.simple.repository.PriceRepository;
 import com.store.simple.repository.ProductRepository;
 import com.store.simple.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/product")
 public class ProductController {
 
@@ -34,15 +31,15 @@ public class ProductController {
             @RequestParam("price") double productPrice) {
 
         Product product = new Product(name);
-        productRepository.save(product);
-        Long productId = productRepository.findByName(name);
-        Price price = new Price(productId, productPrice);
+        Price price = new Price(productPrice);
+        product.setPrice(Collections.singletonList(price));
         priceRepository.save(price);
+
     }
 
     @GetMapping("/remove")
-    public void removeProduct( @RequestParam("id") long id) {
-        productRepository.deleteById(id);
+    public void removeProduct( @RequestParam("name") String name) {
+        productRepository.deleteByName(name);
     }
 
     @GetMapping("/all")
