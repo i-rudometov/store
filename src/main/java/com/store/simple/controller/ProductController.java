@@ -39,9 +39,9 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public List<Product> getAllProducts(
+    public List<Object[]> getAllProducts(
             @RequestParam(value = "date", required = false) Date date) {
-        List<Product> products = productRepository.findAll();
+        List<Object[]> products = productRepository.findAllProducts();
         return products;
     }
 }

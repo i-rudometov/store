@@ -12,5 +12,4 @@ import java.util.List;
 @Component
 public interface PriceRepository extends JpaRepository<Price, Long> {
 
-
 }
