@@ -1,7 +1,9 @@
 package com.store.simple.controller;
 
 import com.store.simple.models.Price;
+import com.store.simple.models.Product;
 import com.store.simple.repository.PriceRepository;
+import com.store.simple.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,16 +22,21 @@ public class PriceController {
     @Autowired
     PriceRepository priceRepository;
 
+    @Autowired
+    ProductRepository productRepository;
+
     @PostMapping("/create")
     public void setPrice(
             @RequestParam("price") double productPrice,
             @RequestParam("begin-date") String bDate,
-            @RequestParam("end-date") String eDate) {
+            @RequestParam("end-date") String eDate,
+            @RequestParam("id") String id ) {
 
         try {
+            Product product = productRepository.getOne(Long.getLong(id));
             Date beginDate = new SimpleDateFormat("yyyy-MM-dd").parse(bDate);
             Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(eDate);
-            Price price = new Price(productPrice);
+            Price price = new Price(productPrice, beginDate, endDate, product);
             priceRepository.save(price);
         } catch (ParseException e) {
             e.printStackTrace();

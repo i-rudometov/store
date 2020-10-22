@@ -28,6 +28,13 @@ public class Price {
         this.price = price;
     }
 
+    public Price(double price, Date beginDate, Date endDate, Product product) {
+        this.price = price;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.product = product;
+    }
+
     @ManyToOne(cascade = {
             CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,
             CascadeType.REFRESH

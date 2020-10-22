@@ -15,7 +15,7 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
     private List<Price> price;
 
     public Product() {
