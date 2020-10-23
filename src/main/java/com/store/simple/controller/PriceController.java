@@ -5,7 +5,6 @@ import com.store.simple.models.Product;
 import com.store.simple.repository.PriceRepository;
 import com.store.simple.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +32,8 @@ public class PriceController {
             @RequestParam("id") String id ) {
 
         try {
-            Product product = productRepository.getOne(Long.getLong(id));
+            Long productID = Long.parseLong(id);
+            Product product = productRepository.getOne(productID);
             Date beginDate = new SimpleDateFormat("yyyy-MM-dd").parse(bDate);
             Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(eDate);
             Price price = new Price(productPrice, beginDate, endDate, product);

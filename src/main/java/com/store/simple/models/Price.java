@@ -1,5 +1,7 @@
 package com.store.simple.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,9 +18,13 @@ public class Price {
     private double price;
 
     @Column(name = "date_begin")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date beginDate;
 
     @Column(name = "date_end")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "YYYY-MM-DD")
     private Date endDate;
 
     public Price() {
